@@ -1,0 +1,23 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
+	<Dialog afterClose="onACDialog">		
+		<content>		
+<form:SimpleForm>
+		<form:content>
+			<core:Title text="{i18n>userdeletetitle}"/>
+
+			<Label text="{i18n>username}" required="true"/>
+			<Input value="{model>/Username}" MaxLength="12"/>
+
+			
+		</form:content>
+</form:SimpleForm>
+		</content>
+<beginButton>
+<Button text="{i18n>delete}" type="Emphasized" press="onDeleteUser" />
+</beginButton>
+
+<endButton>
+<Button text="{i18n>cancel}" type="Emphasized" press="onACDialog" />
+</endButton>
+	</Dialog>
+</core:FragmentDefinition>

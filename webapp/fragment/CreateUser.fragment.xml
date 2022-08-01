@@ -1,0 +1,34 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
+	<Dialog afterClose="onACDialog">		
+		<content>		
+<form:SimpleForm>
+		<form:content>
+			<core:Title text="{i18n>userinformationtitle}"/>
+
+			<Label text="{i18n>username}" required="true"/>
+			<Input value="{model>/Name/0}{model>/Surname}" valueLiveUpdate="true" MaxLength="12" editable="false"/>
+
+			<Label text="{i18n>createname}"/>
+			<Input value="{model>/Name}" MaxLength="40" />
+
+			<Label text="{i18n>createsurname}"/>
+			<Input value="{model>/Surname}" MaxLength="40" />
+
+			<Label text="{i18n>createbirthdate}"/>
+			<DatePicker value="{path: 'model>/Birthdate', type:'sap.ui.model.type.Date', formatOptions: { UTC:true } }" />
+
+			<Label text="{i18n>createmail}" />
+			<Input type="email" value="{model>/Mail}" MaxLength="241"/>
+			
+		</form:content>
+</form:SimpleForm>
+		</content>
+<beginButton>
+<Button text="{i18n>save}" type="Emphasized" press="onCreateUser" />
+</beginButton>
+
+<endButton>
+<Button text="{i18n>cancel}" type="Emphasized" press="onACDialog" />
+</endButton>
+	</Dialog>
+</core:FragmentDefinition>

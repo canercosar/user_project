@@ -1,0 +1,107 @@
+<mvc:View
+    controllerName="com.ntt.cc.userproject.controller.Worklist"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:semantic="sap.f.semantic">
+
+    <semantic:SemanticPage
+        id="page"
+        headerPinnable="false"
+        toggleHeaderOnTitleClick="false">
+
+        <semantic:titleHeading>
+            <Title
+                text="{i18n>worklistTitle}"
+                level="H2"/>
+        </semantic:titleHeading>
+
+        <semantic:content>
+            <Table 
+                id="table"
+                width="auto"
+                items="{
+                    path: '/UserInformationSet',
+                    sorter: {
+                        path: 'Username',
+                        descending: false
+                    }
+                }"
+                noDataText="{worklistView>/tableNoDataText}"
+                busyIndicatorDelay="{worklistView>/tableBusyDelay}"
+                growing="true"
+                growingScrollToLoad="true"
+                updateFinished=".onUpdateFinished">
+
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title
+                            id="tableHeader"
+                            text="{worklistView>/worklistTableTitle}"
+                            level="H3"/>
+                <ToolbarSpacer />
+
+                        <Button text="{i18n>createButton}" press="onShowCreateDialog" icon="sap-icon://add-employee"/>
+                        <Button text="{i18n>updateButton}" press="onShowUpdateDialog" icon="sap-icon://user-edit"/>
+                        <Button text="{i18n>deleteButton}" press="onShowDeleteDialog" icon="sap-icon://delete"/>
+
+                        <ToolbarSpacer />
+                        
+                        <SearchField
+                            id="searchField"
+                            tooltip="{i18n>worklistSearchTooltip}"
+                            search=".onSearch">
+                            <layoutData>
+                                <OverflowToolbarLayoutData
+                                    maxWidth="200px"
+                                    priority="NeverOverflow"/>
+                            </layoutData>
+                        </SearchField>
+                        	
+                    </OverflowToolbar>
+                </headerToolbar>
+
+                <columns>
+                    <Column id="usernameColumn">
+                        <Text text="{i18n>tableUserNameColumnTitle}" id="usernameColumnTitle"/>
+                    </Column>
+
+                    <Column id="nameColumn" >
+                        <Text text="{i18n>tableUnitNameColumnTitle}" id="nameColumnTitle"/>
+                    </Column>
+
+                    <Column id="dateColumn" >
+                        <Text text="{i18n>tableUnitDateColumnTitle}" id="dateColumnTitle"/>
+                    </Column>
+
+                    <Column id="mailColumn" >
+                        <Text text="{i18n>tableUnitMailColumnTitle}" id="mailColumnTitle"/>
+                    </Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem
+                        type="Navigation"
+                        press=".onPress">
+                        <cells>
+
+                            <ObjectIdentifier
+                                title="{Username}"/>
+
+                            <ObjectIdentifier
+                                title="{Name}  {Surname}"/>
+
+                            
+                            <ObjectIdentifier
+                                title="{path: 'Birthdate', type:'sap.ui.model.type.Date', formatOptions: { UTC:true } }"/>
+
+                            <ObjectIdentifier
+                                title="{Mail}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </semantic:content>
+
+    </semantic:SemanticPage>
+
+</mvc:View>

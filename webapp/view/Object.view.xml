@@ -1,0 +1,57 @@
+<mvc:View
+    controllerName="com.ntt.cc.userproject.controller.Object"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:semantic="sap.f.semantic"
+    xmlns:f="sap.ui.layout.form">
+
+    <semantic:SemanticPage
+        id="page"
+        headerPinnable="false"
+        toggleHeaderOnTitleClick="false"
+        busy="{objectView>/busy}"
+        busyIndicatorDelay="{objectView>/delay}">
+
+
+        
+        
+        <VBox class="sapUiSmallMargin">
+        
+		
+		<f:SimpleForm id="SimpleFormDisplay354"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			title="{Username}"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="Name" />
+				<Text id="nameText" text="{Name}" />
+				<Label text="Surname" />
+				<Text text="{Surname}" />
+				<Label text="Birthdate" />
+				<Text text="{path: 'Birthdate', type:'sap.ui.model.type.Date', formatOptions: { UTC:true } }" />
+				<Label text="Mail" />
+				<Text id="countryText" text="{Mail}" />
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+
+
+        
+                               
+
+    </semantic:SemanticPage>
+
+</mvc:View>
