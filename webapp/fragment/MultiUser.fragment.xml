@@ -1,0 +1,47 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
+	<Dialog afterClose="onACDialog">		
+		<content>		
+            <Table items="{model>/Users}">
+                <headerToolbar>
+                    <Toolbar>                        
+                        <Button text="{i18n>add}" press="onAddUser"/>
+                    </Toolbar>
+                </headerToolbar>	
+                <columns>
+                    <Column>
+                        <Label text="{i18n>username}" design="Bold"/>
+                    </Column>
+                    <Column>
+                        <Label text="{i18n>createname}" design="Bold"/>
+                    </Column>
+                    <Column>
+                        <Label text="{i18n>createsurname}" design="Bold"/>
+                    </Column>
+                    <Column>
+                        <Label text="{i18n>createbirthdate}" design="Bold"/>
+                    </Column>
+                    <Column>
+                        <Label text="{i18n>createmail}" design="Bold"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Input value="{model>Username}" maxLength="12" required="true"/>
+                            <Input value="{model>Name}" maxLength="40"/>
+                            <Input value="{model>Surname}" maxLength="40"/>
+                            <DatePicker value="{ path:'model>Birthdate', type:'sap.ui.model.type.Date', formatOptions: { UTC:true } }"/>
+                            <Input value="{model>Mail}" maxLength="241"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>		
+		</content>
+        <beginButton>
+            <Button text="{i18n>save}" type="Emphasized" press="onCreateMultiUser"/>
+        </beginButton>
+        <endButton>
+            <Button text="{i18n>cancel}" press="onACDialog"/>
+        </endButton>
+	</Dialog>
+</core:FragmentDefinition>

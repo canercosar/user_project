@@ -4,10 +4,12 @@ sap.ui.define([
     "../model/formatter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/m/MessageBox"
-], function (BaseController, JSONModel, formatter, Filter, FilterOperator,MessageBox) {
+    "sap/m/MessageBox",
+    'sap/ui/export/library',
+	'sap/ui/export/Spreadsheet'
+], function (BaseController, JSONModel, formatter, Filter, FilterOperator,MessageBox, exportLibrary, Spreadsheet) {
     "use strict";
-
+    var EdmType = exportLibrary.EdmType;
     return BaseController.extend("com.ntt.cc.userproject.controller.Worklist", {
 
         formatter: formatter,
@@ -35,11 +37,61 @@ sap.ui.define([
             
 		},
 
+
+        onDeleteTableRow: function(oEvent){
+
+           const oRow = oEvent.mParameters.listItem.mAggregations.cells[0].mProperties.title;
+            const oModel = oRow;
+			const oKey = this.getModel().createKey("/UserInformationSet", {
+				Username: oModel
+			});
+
+			this.onDelete(oKey, this.getModel())
+				.then(() => {})
+				.catch(() => {})
+				.finally(() => {
+                    this.onRefresh();
+                });
+        },
+
+        onAddUser: function () {
+            const oModel = this.getModel("model");
+            const aUsers = oModel.getProperty("/Users");
+        
+            aUsers.push({
+                Username: "",
+                Name: "",
+                Surname: "",
+                Birthdate: null,
+                Mail: "@gmail.com"
+            });
+        
+            oModel.setProperty("/Users", aUsers);
+        },
+        
+        onCreateMultiUser: function () {
+            const aUserInformations = this.getModel("model").getProperty("/Users");
+            const oUserInformartionData = {
+                Username: "",
+                UserInformationItems: aUserInformations
+            };
+        
+            this.onCreate("/UserInformationSet", oUserInformartionData, this.getModel())
+                .then((oResponse) => {
+                    MessageToast.show(sap.ui.getCore().getMessageManager().getMessageModel().getData()[0].message);
+                })
+                .catch((oError) => {
+        
+                })
+                .finally(() => {
+                });
+        },
+
         onCreateUser: function(){
 			const oUserInformation = this.getModel("model").getProperty("/");
 			let oData = {};
 
-            oData.Username = oUserInformation.Name[0] + oUserInformation.Surname
+            oData.Username = oUserInformation.Username
             oData.Name = oUserInformation.Name
             oData.Surname  = oUserInformation.Surname
             oData.Birthdate = oUserInformation.Birthdate
@@ -82,6 +134,7 @@ sap.ui.define([
                 });
 
         },
+
         
 
         onUpdateUser: function () {
@@ -106,6 +159,18 @@ sap.ui.define([
                 });
 		},
 
+        onGenerateUsername: function () {
+            const oModel = this.getModel("model");
+            const sName = oModel.getProperty("/Name");
+            const sSurname = oModel.getProperty("/Surname");
+            let sUsername = "";
+
+            if (sName !== "" && sSurname !== "") {
+                sUsername = sName.charAt(0).toLocaleUpperCase() + sSurname.toLocaleUpperCase();
+            }
+
+            oModel.setProperty("/Username", sUsername);
+},
 
         onShowUpdateDialog: function(){
             this.oDialog = sap.ui.xmlfragment(this.getView().getId(), "com.ntt.cc.userproject.fragment.UpdateUser", this);
@@ -125,6 +190,68 @@ sap.ui.define([
             this.oDialog = sap.ui.xmlfragment(this.getView().getId(), "com.ntt.cc.userproject.fragment.CreateUser", this);
 			this.getView().addDependent(this.oDialog);
 			this.oDialog.open();
+        },
+        onShowMultiDialog: function(){
+
+            this.oDialog = sap.ui.xmlfragment(this.getView().getId(), "com.ntt.cc.userproject.fragment.MultiUser", this);
+			this.getView().addDependent(this.oDialog);
+			this.oDialog.open();
+        },
+
+        createColumnConfig: function () {
+            let aCols = [];
+
+            aCols.push({
+                label: 'Username',
+                property: 'Username'
+            });
+
+            aCols.push({
+                label: 'Name',
+                property: 'Name'
+            });
+
+            aCols.push({
+                label: 'Surname',
+                property: 'Surname'
+            });
+
+            aCols.push({
+                label: 'Birthdate',
+                property: 'Birthdate',
+                type:EdmType.Date,
+            });
+
+
+            aCols.push({
+                label: 'Mail',
+                property: 'Mail'
+            });
+
+            return aCols;
+        },
+
+
+        onExport: function (){
+
+            let aCols, oSettings, oSheet;
+            let aData=[];
+            const aContexts = this.byId("table").getBinding("items").getContexts();
+            aContexts.forEach(oContext => {
+                aData.push(this.getModel().getProperty(oContext.getPath() + "/"));
+            });
+            aCols = this.createColumnConfig();
+            oSettings = {
+                workbook: { columns: aCols},
+                dataSource: aData,
+                fileName: 'Table export.xlsx',
+            };
+
+            oSheet = new Spreadsheet(oSettings);
+            oSheet.build()
+                .then(() => { })
+                .finally(oSheet.destroy);
+
         },
         
         /**

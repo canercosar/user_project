@@ -5,14 +5,14 @@
 		<form:content>
 			<core:Title text="{i18n>userinformationtitle}"/>
 
-			<Label text="{i18n>username}" required="true"/>
-			<Input value="{model>/Name/0}{model>/Surname}" valueLiveUpdate="true" MaxLength="12" editable="false"/>
+			<Label text="{i18n>username}" />
+			<Input value="{model>/Username}"  MaxLength="12" editable="false"/>
 
-			<Label text="{i18n>createname}"/>
-			<Input value="{model>/Name}" MaxLength="40" />
+			<Label text="{i18n>createname}" required="true"/>
+			<Input value="{model>/Name}" MaxLength="40" change="onGenerateUsername" />
 
-			<Label text="{i18n>createsurname}"/>
-			<Input value="{model>/Surname}" MaxLength="40" />
+			<Label text="{i18n>createsurname}" required="true"/>
+			<Input value="{model>/Surname}" MaxLength="40" change="onGenerateUsername" />
 
 			<Label text="{i18n>createbirthdate}"/>
 			<DatePicker value="{path: 'model>/Birthdate', type:'sap.ui.model.type.Date', formatOptions: { UTC:true } }" />

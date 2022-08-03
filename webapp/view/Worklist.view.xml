@@ -18,6 +18,8 @@
         <semantic:content>
             <Table 
                 id="table"
+                mode="Delete"
+                delete="onDeleteTableRow"
                 width="auto"
                 items="{
                     path: '/UserInformationSet',
@@ -41,8 +43,11 @@
                 <ToolbarSpacer />
 
                         <Button text="{i18n>createButton}" press="onShowCreateDialog" icon="sap-icon://add-employee"/>
+                        <Button text="{i18n>createMultiButton}" press="onShowMultiDialog" icon="sap-icon://group"/>
                         <Button text="{i18n>updateButton}" press="onShowUpdateDialog" icon="sap-icon://user-edit"/>
                         <Button text="{i18n>deleteButton}" press="onShowDeleteDialog" icon="sap-icon://delete"/>
+                        
+
 
                         <ToolbarSpacer />
                         
@@ -56,7 +61,7 @@
                                     priority="NeverOverflow"/>
                             </layoutData>
                         </SearchField>
-                        	
+                        	<Button text="Excel" press="onExport" icon="sap-icon://excel-attachment"/>
                     </OverflowToolbar>
                 </headerToolbar>
 
